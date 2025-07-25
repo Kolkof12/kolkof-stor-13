@@ -1,104 +1,104 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kolkof stor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolkof Store</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      font-family: Arial, sans-serif;
       background-color: #000;
-      color: #fff;
+      color: white;
+      transition: background 0.3s, color 0.3s;
     }
-
-    header {
-      text-align: center;
-      padding: 30px 10px;
-      font-size: 32px;
+    .light {
+      background-color: #fff;
+      color: #000;
+    }
+    h1 {
       color: red;
-      font-weight: bold;
+      text-align: center;
+      margin-bottom: 40px;
     }
-
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
-      padding: 20px;
-      max-width: 1200px;
+      max-width: 1000px;
       margin: auto;
     }
-
-    .card {
-      background-color: #111;
-      border-radius: 16px;
+    .box {
+      background: #111;
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
-    }
-
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
-
-    .card-title {
-      padding: 15px;
       text-align: center;
-      font-size: 18px;
+      padding: 10px;
+      transition: transform 0.3s;
+    }
+    .box:hover {
+      transform: scale(1.05);
+    }
+    .box img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .box p {
+      margin-top: 10px;
       font-weight: bold;
     }
-
-    footer {
-      text-align: center;
-      color: #666;
-      padding: 20px;
-      font-size: 14px;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .light .box {
+      background: #eee;
     }
   </style>
 </head>
 <body>
-
-  <header>Kolkof stor</header>
-
+  <h1>Kolkof</h1>
   <div class="grid">
-    <a class="card" href="request.html?type=user_instagram">
-      <img src="https://i.imgur.com/2YkTb4c.png" alt="User Instagram">
-      <div class="card-title">User Instagram</div>
+    <a href="request.html?type=user_instagram">
+      <div class="box">
+        <img src="https://i.imgur.com/3XjNn9I.png" alt="User Instagram">
+        <p>User Instagram</p>
+      </div>
     </a>
-
-    <a class="card" href="request.html?type=acc_instagram">
-      <img src="https://i.imgur.com/tYyLCWL.png" alt="Acc Instagram">
-      <div class="card-title">Acc Instagram</div>
+    <a href="request.html?type=acc_instagram">
+      <div class="box">
+        <img src="https://i.imgur.com/3XjNn9I.png" alt="Acc Instagram">
+        <p>Acc Instagram</p>
+      </div>
     </a>
-
-    <a class="card" href="request.html?type=edit_instagram">
-      <img src="https://i.imgur.com/7tUATnp.jpeg" alt="Edit Instagram">
-      <div class="card-title">Edit Instagram</div>
+    <a href="request.html?type=edit_instagram">
+      <div class="box">
+        <img src="https://i.imgur.com/KhNmZCG.png" alt="Edit Instagram">
+        <p>Edit Instagram</p>
+      </div>
     </a>
-
-    <a class="card" href="request.html?type=python_tools">
-      <img src="https://i.imgur.com/Wr7Mm8r.jpeg" alt="Python Tools">
-      <div class="card-title">Python Tools</div>
+    <a href="request.html?type=python_tools">
+      <div class="box">
+        <img src="https://i.imgur.com/1H1YYhU.png" alt="Python Tools">
+        <p>Python Tools</p>
+      </div>
     </a>
-
-    <a class="card" href="request.html?type=create_website">
-      <img src="https://i.imgur.com/nCSaXfl.jpeg" alt="Create Website">
-      <div class="card-title">Create a Special Website</div>
+    <a href="request.html?type=create_website">
+      <div class="box">
+        <img src="https://i.imgur.com/QwZQzpc.png" alt="Create Website">
+        <p>Create a Special Website</p>
+      </div>
     </a>
   </div>
 
-  <footer>جميع الحقوق محفوظة © Kolkof 2025</footer>
-
+  <script>
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.body.classList.add("light");
+    }
+  </script>
 </body>
 </html>
 
