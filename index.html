@@ -38,13 +38,11 @@
       background: var(--button);
       color: white;
       cursor: pointer;
+      transition: 0.3s;
     }
     .row {
       display: flex;
       gap: 10px;
-    }
-    .row input {
-      flex: 1;
     }
     .success {
       display: none;
@@ -101,10 +99,9 @@
     </select>
 
     <label id="startLabel">Start letter or number</label>
-    <div class="row">
-      <input id="startChar" maxlength="1" placeholder="A or 1" />
-      <button onclick="randomChar()">Random</button>
-    </div>
+    <input id="startChar" maxlength="1" placeholder="A or 1" />
+
+    <button id="randomBtn" onclick="setRandom()">✔ Random Username</button>
 
     <label id="emailLabel">Your email</label>
     <input id="email" type="email" placeholder="example@email.com" />
@@ -169,6 +166,7 @@
     };
 
     let currentLang = 'en';
+    let isRandom = false;
 
     function setLang(lang) {
       currentLang = lang;
@@ -180,16 +178,22 @@
       document.getElementById("successText").innerText = t.success;
     }
 
-    function randomChar() {
-      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-      document.getElementById("startChar").value = chars[Math.floor(Math.random() * chars.length)];
+    function setRandom() {
+      isRandom = true;
+      const input = document.getElementById("startChar");
+      input.value = "✔ Random";
+      document.getElementById("randomBtn").style.backgroundColor = "#2ecc71";
     }
 
     function send() {
+      let char = document.getElementById("startChar").value.trim();
       const pattern = document.getElementById("pattern").value;
-      const char = document.getElementById("startChar").value || "any";
       const email = document.getElementById("email").value;
       if (!email) return alert("Please enter your email");
+
+      if (isRandom || char.toLowerCase().includes("random")) {
+        char = "random";
+      }
 
       const message = `📩 New Kolkof Order:\nPattern: ${pattern}\nStart: ${char}\nEmail: ${email}`;
       const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
@@ -204,10 +208,10 @@
         document.getElementById("formContainer").style.display = "none";
         document.getElementById("successText").innerText = translations[currentLang].success;
         document.getElementById("successContainer").style.display = "flex";
+        isRandom = false;
       });
     }
 
-    // Initial language
     setLang("en");
   </script>
 </body>
