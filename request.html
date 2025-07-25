@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>طلب خدمة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: red;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #111;
+      color: #fff;
+    }
+    button {
+      background-color: red;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #price, #emailBox {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>طلب خدمة من Kolkof</h2>
+
+  <form id="requestForm">
+    <div class="form-group">
+      <label>نوع الخدمة:</label>
+      <select id="serviceType" required>
+        <option value="">اختر</option>
+        <option value="user_instagram">User Instagram</option>
+        <option value="acc_instagram">Acc Instagram</option>
+        <option value="edit_instagram">Edit Instagram</option>
+        <option value="python_tools">Python Tools</option>
+        <option value="create_website">Create Special Website</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>تفاصيل الطلب:</label>
+      <textarea id="details" rows="4" placeholder="أدخل التفاصيل المطلوبة حسب الخدمة" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>طريقة الدفع:</label>
+      <select id="paymentMethod" required>
+        <option value="">اختر</option>
+        <option value="free">مجاني</option>
+        <option value="da">دينار جزائري</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="price">
+      <label>السعر:</label>
+      <input type="text" id="priceValue" disabled />
+    </div>
+
+    <div class="form-group" id="emailBox">
+      <label>بريدك الإلكتروني للتواصل:</label>
+      <input type="email" id="userEmail" placeholder="example@email.com"/>
+    </div>
+
+    <button type="submit">إرسال الطلب</button>
+  </form>
+
+  <script>
+    const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64"; // توكن البوت
+    const chat_id = "123456789"; // ← غيّر هذا إلى الـ Chat ID الخاص بك
+
+    const form = document.getElementById("requestForm");
+    const payment = document.getElementById("paymentMethod");
+    const service = document.getElementById("serviceType");
+    const priceBox = document.getElementById("price");
+    const emailBox = document.getElementById("emailBox");
+    const priceInput = document.getElementById("priceValue");
+
+    payment.addEventListener("change", () => {
+      if (payment.value === "da") {
+        priceBox.style.display = "block";
+        emailBox.style.display = "block";
+
+        // تعيين السعر حسب نوع الخدمة
+        switch (service.value) {
+          case "user_instagram":
+            priceInput.value = "Algerian AD / 10k Followers";
+            break;
+          case "acc_instagram":
+            priceInput.value = "2000DA / 5k Followers";
+            break;
+          case "edit_instagram":
+            priceInput.value = "200DA / 4K-8K Edit";
+            break;
+          case "create_website":
+            priceInput.value = "1000DA / 10k";
+            break;
+          default:
+            priceInput.value = "السعر غير محدد";
+        }
+
+      } else {
+        priceBox.style.display = "none";
+        emailBox.style.display = "none";
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const serviceType = service.value;
+      const details = document.getElementById("details").value;
+      const paymentType = payment.value;
+      const email = document.getElementById("userEmail").value;
+
+      let message = `📥 طلب جديد من الموقع\n\n`;
+      message += `🛠️ الخدمة: ${serviceType}\n`;
+      message += `📝 التفاصيل: ${details}\n`;
+      message += `💰 طريقة الدفع: ${paymentType === "da" ? "دينار جزائري" : "مجاني"}\n`;
+
+      if (paymentType === "da") {
+        message += `💵 السعر: ${priceInput.value}\n`;
+        message += `📧 الإيميل: ${email || "غير مدخل"}\n`;
+      }
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id,
+          text: message
+        })
+      }).then(res => {
+        alert("✅ تم إرسال الطلب بنجاح!");
+        form.reset();
+        priceBox.style.display = "none";
+        emailBox.style.display = "none";
+      }).catch(err => {
+        alert("❌ حدث خطأ أثناء الإرسال");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
