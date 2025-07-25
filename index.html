@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kolkof stor</title>
+  <style>
+    :root { --text: #ffffff; }
+
+    body {
+      background: url("A_digital_artwork_for_\"Kolkof_stor\"_features_a_hoo.png") no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 100px;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #333;
+      color: white;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00b894;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h2>Kolkof stor - Username Request</h2>
+
+    <label for="pattern">Choose Username Pattern</label>
+    <select id="pattern">
+      <option value="@##_##">@##_##</option>
+      <option value="@#_###">@#_###</option>
+      <option value="@###_#">@###_#</option>
+      <option value="@###.#">@###.#</option>
+    </select>
+
+    <label for="startLetter">Start Letter (optional)</label>
+    <input type="text" id="startLetter" placeholder="e.g. A or 1">
+
+    <label for="email">Your Email</label>
+    <input type="email" id="email" placeholder="your@email.com">
+
+    <button onclick="sendRequest()">Submit Request</button>
+  </div>
+
+  <script>
+    async function sendRequest() {
+      const pattern = document.getElementById("pattern").value;
+      const startLetter = document.getElementById("startLetter").value || "any";
+      const email = document.getElementById("email").value;
+
+      if (!email) {
+        alert("Please enter a valid email.");
+        return;
+      }
+
+      const message = `
+📥 New User Request
+-----------------------
+Pattern: ${pattern}
+Starts with: ${startLetter}
+Email: ${email}
+      `;
+
+      const botToken = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
+      const chatId = "YOUR_CHAT_ID"; // ← بدله بـ chat ID تاعك
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      });
+
+      alert("✅ Your request has been sent!");
+    }
+  </script>
+</body>
+</html>
