@@ -88,8 +88,8 @@
   </form>
 
   <script>
-    const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64"; // توكن البوت
-    const chat_id = "123456789"; // ← غيّر هذا إلى الـ Chat ID الخاص بك
+    const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
+    const chat_id = "7898587395";
 
     const form = document.getElementById("requestForm");
     const payment = document.getElementById("paymentMethod");
@@ -103,7 +103,6 @@
         priceBox.style.display = "block";
         emailBox.style.display = "block";
 
-        // تعيين السعر حسب نوع الخدمة
         switch (service.value) {
           case "user_instagram":
             priceInput.value = "Algerian AD / 10k Followers";
@@ -120,7 +119,6 @@
           default:
             priceInput.value = "السعر غير محدد";
         }
-
       } else {
         priceBox.style.display = "none";
         emailBox.style.display = "none";
