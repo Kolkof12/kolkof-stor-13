@@ -1,231 +1,104 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kolkof stor</title>
   <style>
-    :root {
-      --bg-color: #000;
-      --text-color: #fff;
-      --card-color: #111;
-      --button-color: #e74c3c;
-      --logo-color: red;
-    }
-    body.light {
-      --bg-color: #fff;
-      --text-color: #000;
-      --card-color: #f3f3f3;
-    }
     body {
       margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      transition: background 0.3s, color 0.3s;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
     }
-    .container {
-      max-width: 400px;
-      margin: 50px auto;
-      background: var(--card-color);
-      padding: 30px;
-      border-radius: 10px;
+
+    header {
       text-align: center;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    button {
-      background: var(--button-color);
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
-      animation: fadeIn 1s ease forwards;
-    }
-    .checkmark {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #2ecc71;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
-    .footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #888;
-    }
-    .theme-toggle {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 6px 12px;
-      font-size: 14px;
-      background: #444;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .logo {
-      font-size: 28px;
+      padding: 30px 10px;
+      font-size: 32px;
+      color: red;
       font-weight: bold;
-      color: var(--logo-color);
-      margin-bottom: 20px;
     }
-    .lang {
-      margin-bottom: 20px;
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+
+    .card {
+      background-color: #111;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      padding: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
-<body class="dark">
-  <div class="theme-toggle" onclick="toggleTheme()">☀ Light / Dark</div>
-  <div class="container" id="formContainer">
-    <div class="logo">Kolkof</div>
-    <div class="lang">
-      <select onchange="setLang(this.value)">
-        <option value="en">English</option>
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="es">Español</option>
-        <option value="pt">Português</option>
-        <option value="ru">Русский</option>
-      </select>
-    </div>
-    <h2 id="title">Kolkof stor - Username Request</h2>
-    <label id="patternLabel">Choose pattern</label>
-    <select id="pattern">
-      <option>@##_##</option>
-      <option>@#_###</option>
-      <option>@###_#</option>
-      <option>@###.#</option>
-    </select>
-    <label id="startLabel">Start letter or number</label>
-    <input id="startChar" maxlength="1" placeholder="A or 1" />
-    <button id="randomBtn" onclick="setRandom()">✔ Random Username</button>
-    <label id="emailLabel">Your email</label>
-    <input id="email" type="email" placeholder="example@email.com" />
-    <button onclick="send()">Send Request</button>
+<body>
+
+  <header>Kolkof stor</header>
+
+  <div class="grid">
+    <a class="card" href="request.html?type=user_instagram">
+      <img src="https://i.imgur.com/2YkTb4c.png" alt="User Instagram">
+      <div class="card-title">User Instagram</div>
+    </a>
+
+    <a class="card" href="request.html?type=acc_instagram">
+      <img src="https://i.imgur.com/tYyLCWL.png" alt="Acc Instagram">
+      <div class="card-title">Acc Instagram</div>
+    </a>
+
+    <a class="card" href="request.html?type=edit_instagram">
+      <img src="https://i.imgur.com/7tUATnp.jpeg" alt="Edit Instagram">
+      <div class="card-title">Edit Instagram</div>
+    </a>
+
+    <a class="card" href="request.html?type=python_tools">
+      <img src="https://i.imgur.com/Wr7Mm8r.jpeg" alt="Python Tools">
+      <div class="card-title">Python Tools</div>
+    </a>
+
+    <a class="card" href="request.html?type=create_website">
+      <img src="https://i.imgur.com/nCSaXfl.jpeg" alt="Create Website">
+      <div class="card-title">Create a Special Website</div>
+    </a>
   </div>
-  <div class="container success" id="successContainer">
-    <div class="checkmark">✔</div>
-    <h3 id="successText">Request sent successfully!</h3>
-  </div>
-  <div class="footer">
-    Telegram: @DZ_HJ <br>
-    Instagram: @t7.l / @elqerx
-  </div>
-  <script>
-    const translations = {
-      ar: {
-        title: "كولكوف ستور - طلب",
-        pattern: "اختر النمط",
-        start: "الحرف أو الرقم",
-        email: "بريدك الإلكتروني",
-        success: "✅ تم الإرسال بنجاح!"
-      },
-      fr: {
-        title: "Kolkof stor - Demande",
-        pattern: "Choisissez le modèle",
-        start: "Commence par",
-        email: "Votre email",
-        success: "✅ Envoyé avec succès!"
-      },
-      es: {
-        title: "Kolkof stor - Solicitud",
-        pattern: "Elige patrón",
-        start: "Empieza con",
-        email: "Tu email",
-        success: "✅ Enviado correctamente!"
-      },
-      pt: {
-        title: "Kolkof stor - Pedido",
-        pattern: "Escolher padrão",
-        start: "Começa com",
-        email: "Seu email",
-        success: "✅ Enviado com sucesso!"
-      },
-      ru: {
-        title: "Kolkof stor - Запрос",
-        pattern: "Выбрать шаблон",
-        start: "Начинается с",
-        email: "Ваш email",
-        success: "✅ Успешно отправлено!"
-      },
-      en: {
-        title: "Kolkof stor - Username Request",
-        pattern: "Choose pattern",
-        start: "Start letter or number",
-        email: "Your email",
-        success: "✅ Request sent successfully!"
-      }
-    };let currentLang = 'en';
-let isRandom = false;
 
-function setLang(lang) {
-  currentLang = lang;
-  const t = translations[lang];
-  document.getElementById("title").innerText = t.title;
-  document.getElementById("patternLabel").innerText = t.pattern;
-  document.getElementById("startLabel").innerText = t.start;
-  document.getElementById("emailLabel").innerText = t.email;
-  document.getElementById("successText").innerText = t.success;
-}
+  <footer>جميع الحقوق محفوظة © Kolkof 2025</footer>
 
-function setRandom() {
-  isRandom = true;
-  const input = document.getElementById("startChar");
-  input.value = "✔ Random";
-  document.getElementById("randomBtn").style.backgroundColor = "#2ecc71";
-}
-
-function toggleTheme() {
-  document.body.classList.toggle('light');
-}
-
-function send() {
-  let char = document.getElementById("startChar").value.trim();
-  const pattern = document.getElementById("pattern").value;
-  const email = document.getElementById("email").value;
-  if (!email) return alert("Please enter your email");
-  if (isRandom || char.toLowerCase().includes("random")) {
-    char = "random";
-  }
-  const message = `📩 New Kolkof Order:\nPattern: ${pattern}\nStart: ${char}\nEmail: ${email}`;
-  const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
-  const chat = "7898587395";
-  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ chat_id: chat, text: message })
-  })
-  .then(() => {
-    document.getElementById("formContainer").style.display = "none";
-    document.getElementById("successText").innerText = translations[currentLang].success;
-    document.getElementById("successContainer").style.display = "flex";
-    isRandom = false;
-  });
-}
-
-setLang("en");
-
-  </script>
 </body>
 </html>
 
