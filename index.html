@@ -5,116 +5,211 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kolkof stor</title>
   <style>
-    :root { --text: #ffffff; }
-
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --card: #111;
+      --button: #e74c3c;
+    }
     body {
-      background: url("A_digital_artwork_for_\"Kolkof_stor\"_features_a_hoo.png") no-repeat center center fixed;
-      background-size: cover;
-      color: var(--text);
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
+      font-family: sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .container {
+      max-width: 400px;
+      margin: 80px auto;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background: var(--button);
+      color: white;
+      cursor: pointer;
+    }
+    .row {
       display: flex;
+      gap: 10px;
+    }
+    .row input {
+      flex: 1;
+    }
+    .success {
+      display: none;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
+      margin-top: 40px;
+      animation: fadeIn 1s ease forwards;
     }
-
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
-      width: 100%;
-      padding: 30px;
-      border-radius: 12px;
-      margin-top: 100px;
-      max-width: 450px;
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #2ecc71;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
     }
-
-    h2 {
-      text-align: center;
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+    .lang {
       margin-bottom: 20px;
-      font-size: 24px;
     }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background-color: #333;
-      color: white;
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #00b894;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h2>Kolkof stor - Username Request</h2>
+  <div class="container" id="formContainer">
+    <div class="lang">
+      <select onchange="setLang(this.value)">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="pt">Português</option>
+        <option value="ru">Русский</option>
+      </select>
+    </div>
 
-    <label for="pattern">Choose Username Pattern</label>
+    <h2 id="title">Kolkof stor - Username Request</h2>
+
+    <label id="patternLabel">Choose pattern</label>
     <select id="pattern">
-      <option value="@##_##">@##_##</option>
-      <option value="@#_###">@#_###</option>
-      <option value="@###_#">@###_#</option>
-      <option value="@###.#">@###.#</option>
+      <option>@##_##</option>
+      <option>@#_###</option>
+      <option>@###_#</option>
+      <option>@###.#</option>
     </select>
 
-    <label for="startLetter">Start Letter (optional)</label>
-    <input type="text" id="startLetter" placeholder="e.g. A or 1">
+    <label id="startLabel">Start letter or number</label>
+    <div class="row">
+      <input id="startChar" maxlength="1" placeholder="A or 1" />
+      <button onclick="randomChar()">Random</button>
+    </div>
 
-    <label for="email">Your Email</label>
-    <input type="email" id="email" placeholder="your@email.com">
+    <label id="emailLabel">Your email</label>
+    <input id="email" type="email" placeholder="example@email.com" />
 
-    <button onclick="sendRequest()">Submit Request</button>
+    <button onclick="send()">Send Request</button>
+  </div>
+
+  <div class="container success" id="successContainer">
+    <div class="checkmark">✔</div>
+    <h3 id="successText">Request sent successfully!</h3>
+  </div>
+
+  <div class="footer">
+    Telegram: @DZ_HJ <br>
+    Instagram: @t7.l / @elqerx
   </div>
 
   <script>
-    async function sendRequest() {
-      const pattern = document.getElementById("pattern").value;
-      const startLetter = document.getElementById("startLetter").value || "any";
-      const email = document.getElementById("email").value;
-
-      if (!email) {
-        alert("Please enter a valid email.");
-        return;
+    const translations = {
+      ar: {
+        title: "كولكوف ستور - طلب",
+        pattern: "اختر النمط",
+        start: "الحرف أو الرقم",
+        email: "بريدك الإلكتروني",
+        success: "✅ تم الإرسال بنجاح!"
+      },
+      fr: {
+        title: "Kolkof stor - Demande",
+        pattern: "Choisissez le modèle",
+        start: "Commence par",
+        email: "Votre email",
+        success: "✅ Envoyé avec succès!"
+      },
+      es: {
+        title: "Kolkof stor - Solicitud",
+        pattern: "Elige patrón",
+        start: "Empieza con",
+        email: "Tu email",
+        success: "✅ Enviado correctamente!"
+      },
+      pt: {
+        title: "Kolkof stor - Pedido",
+        pattern: "Escolher padrão",
+        start: "Começa com",
+        email: "Seu email",
+        success: "✅ Enviado com sucesso!"
+      },
+      ru: {
+        title: "Kolkof stor - Запрос",
+        pattern: "Выбрать шаблон",
+        start: "Начинается с",
+        email: "Ваш email",
+        success: "✅ Успешно отправлено!"
+      },
+      en: {
+        title: "Kolkof stor - Username Request",
+        pattern: "Choose pattern",
+        start: "Start letter or number",
+        email: "Your email",
+        success: "✅ Request sent successfully!"
       }
+    };
 
-      const message = `
-📥 New User Request
------------------------
-Pattern: ${pattern}
-Starts with: ${startLetter}
-Email: ${email}
-      `;
+    let currentLang = 'en';
 
-      const botToken = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
-      const chatId = "YOUR_CHAT_ID"; // ← بدله بـ chat ID تاعك
-      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-      await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: message })
-      });
-
-      alert("✅ Your request has been sent!");
+    function setLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("patternLabel").innerText = t.pattern;
+      document.getElementById("startLabel").innerText = t.start;
+      document.getElementById("emailLabel").innerText = t.email;
+      document.getElementById("successText").innerText = t.success;
     }
+
+    function randomChar() {
+      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+      document.getElementById("startChar").value = chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    function send() {
+      const pattern = document.getElementById("pattern").value;
+      const char = document.getElementById("startChar").value || "any";
+      const email = document.getElementById("email").value;
+      if (!email) return alert("Please enter your email");
+
+      const message = `📩 New Kolkof Order:\nPattern: ${pattern}\nStart: ${char}\nEmail: ${email}`;
+      const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
+      const chat = "7898587395";
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ chat_id: chat, text: message })
+      })
+      .then(() => {
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("successText").innerText = translations[currentLang].success;
+        document.getElementById("successContainer").style.display = "flex";
+      });
+    }
+
+    // Initial language
+    setLang("en");
   </script>
 </body>
+</html>
 
