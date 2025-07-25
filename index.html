@@ -1,27 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kolkof stor</title>
   <style>
     :root {
-      --bg: #000;
-      --text: #fff;
-      --card: #111;
-      --button: #e74c3c;
+      --bg-color: #000;
+      --text-color: #fff;
+      --card-color: #111;
+      --button-color: #e74c3c;
+      --logo-color: red;
+    }
+    body.light {
+      --bg-color: #fff;
+      --text-color: #000;
+      --card-color: #f3f3f3;
     }
     body {
       margin: 0;
       padding: 0;
       font-family: sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
     .container {
       max-width: 400px;
-      margin: 80px auto;
-      background: var(--card);
+      margin: 50px auto;
+      background: var(--card-color);
       padding: 30px;
       border-radius: 10px;
       text-align: center;
@@ -35,14 +41,10 @@
       font-size: 16px;
     }
     button {
-      background: var(--button);
+      background: var(--button-color);
       color: white;
       cursor: pointer;
       transition: 0.3s;
-    }
-    .row {
-      display: flex;
-      gap: 10px;
     }
     .success {
       display: none;
@@ -66,6 +68,23 @@
       font-size: 14px;
       color: #888;
     }
+    .theme-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 12px;
+      font-size: 14px;
+      background: #444;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--logo-color);
+      margin-bottom: 20px;
+    }
     .lang {
       margin-bottom: 20px;
     }
@@ -75,8 +94,10 @@
     }
   </style>
 </head>
-<body>
+<body class="dark">
+  <div class="theme-toggle" onclick="toggleTheme()">☀ Light / Dark</div>
   <div class="container" id="formContainer">
+    <div class="logo">Kolkof</div>
     <div class="lang">
       <select onchange="setLang(this.value)">
         <option value="en">English</option>
@@ -87,9 +108,7 @@
         <option value="ru">Русский</option>
       </select>
     </div>
-
     <h2 id="title">Kolkof stor - Username Request</h2>
-
     <label id="patternLabel">Choose pattern</label>
     <select id="pattern">
       <option>@##_##</option>
@@ -97,28 +116,21 @@
       <option>@###_#</option>
       <option>@###.#</option>
     </select>
-
     <label id="startLabel">Start letter or number</label>
     <input id="startChar" maxlength="1" placeholder="A or 1" />
-
     <button id="randomBtn" onclick="setRandom()">✔ Random Username</button>
-
     <label id="emailLabel">Your email</label>
     <input id="email" type="email" placeholder="example@email.com" />
-
     <button onclick="send()">Send Request</button>
   </div>
-
   <div class="container success" id="successContainer">
     <div class="checkmark">✔</div>
     <h3 id="successText">Request sent successfully!</h3>
   </div>
-
   <div class="footer">
     Telegram: @DZ_HJ <br>
     Instagram: @t7.l / @elqerx
   </div>
-
   <script>
     const translations = {
       ar: {
@@ -163,56 +175,56 @@
         email: "Your email",
         success: "✅ Request sent successfully!"
       }
-    };
+    };let currentLang = 'en';
+let isRandom = false;
 
-    let currentLang = 'en';
-    let isRandom = false;
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("patternLabel").innerText = t.pattern;
+  document.getElementById("startLabel").innerText = t.start;
+  document.getElementById("emailLabel").innerText = t.email;
+  document.getElementById("successText").innerText = t.success;
+}
 
-    function setLang(lang) {
-      currentLang = lang;
-      const t = translations[lang];
-      document.getElementById("title").innerText = t.title;
-      document.getElementById("patternLabel").innerText = t.pattern;
-      document.getElementById("startLabel").innerText = t.start;
-      document.getElementById("emailLabel").innerText = t.email;
-      document.getElementById("successText").innerText = t.success;
-    }
+function setRandom() {
+  isRandom = true;
+  const input = document.getElementById("startChar");
+  input.value = "✔ Random";
+  document.getElementById("randomBtn").style.backgroundColor = "#2ecc71";
+}
 
-    function setRandom() {
-      isRandom = true;
-      const input = document.getElementById("startChar");
-      input.value = "✔ Random";
-      document.getElementById("randomBtn").style.backgroundColor = "#2ecc71";
-    }
+function toggleTheme() {
+  document.body.classList.toggle('light');
+}
 
-    function send() {
-      let char = document.getElementById("startChar").value.trim();
-      const pattern = document.getElementById("pattern").value;
-      const email = document.getElementById("email").value;
-      if (!email) return alert("Please enter your email");
+function send() {
+  let char = document.getElementById("startChar").value.trim();
+  const pattern = document.getElementById("pattern").value;
+  const email = document.getElementById("email").value;
+  if (!email) return alert("Please enter your email");
+  if (isRandom || char.toLowerCase().includes("random")) {
+    char = "random";
+  }
+  const message = `📩 New Kolkof Order:\nPattern: ${pattern}\nStart: ${char}\nEmail: ${email}`;
+  const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
+  const chat = "7898587395";
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ chat_id: chat, text: message })
+  })
+  .then(() => {
+    document.getElementById("formContainer").style.display = "none";
+    document.getElementById("successText").innerText = translations[currentLang].success;
+    document.getElementById("successContainer").style.display = "flex";
+    isRandom = false;
+  });
+}
 
-      if (isRandom || char.toLowerCase().includes("random")) {
-        char = "random";
-      }
+setLang("en");
 
-      const message = `📩 New Kolkof Order:\nPattern: ${pattern}\nStart: ${char}\nEmail: ${email}`;
-      const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
-      const chat = "7898587395";
-
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ chat_id: chat, text: message })
-      })
-      .then(() => {
-        document.getElementById("formContainer").style.display = "none";
-        document.getElementById("successText").innerText = translations[currentLang].success;
-        document.getElementById("successContainer").style.display = "flex";
-        isRandom = false;
-      });
-    }
-
-    setLang("en");
   </script>
 </body>
 </html>
