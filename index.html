@@ -63,38 +63,57 @@
   <div class="grid">
     <a href="request.html?type=user_instagram">
       <div class="box">
-        <img src="https://i.ibb.co/WtQj7KZ/instagram-user.jpg" alt="User Instagram">
+        <img src="https://i.imgur.com/3XjNn9I.png" alt="User Instagram">
         <p>User Instagram</p>
       </div>
     </a>
     <a href="request.html?type=acc_instagram">
       <div class="box">
-        <img src="https://i.ibb.co/Mn5dqM2/instagram-acc.jpg" alt="Acc Instagram">
+        <img src="https://i.imgur.com/3XjNn9I.png" alt="Acc Instagram">
         <p>Acc Instagram</p>
       </div>
     </a>
     <a href="request.html?type=edit_instagram">
       <div class="box">
-        <img src="https://i.ibb.co/9v2bzGy/video-edit.jpg" alt="Edit Instagram">
+        <img src="https://i.imgur.com/KhNmZCG.png" alt="Edit Instagram">
         <p>Edit Instagram</p>
       </div>
     </a>
     <a href="request.html?type=python_tools">
       <div class="box">
-        <img src="https://i.ibb.co/YfpDzWX/python-tools.jpg" alt="Python Tools">
+        <img src="https://i.imgur.com/1H1YYhU.png" alt="Python Tools">
         <p>Python Tools</p>
       </div>
     </a>
     <a href="request.html?type=create_website">
       <div class="box">
-        <img src="https://i.ibb.co/TLgwTjJ/web-dev.jpg" alt="Create Website">
+        <img src="https://i.imgur.com/QwZQzpc.png" alt="Create Website">
         <p>Create a Special Website</p>
       </div>
     </a>
   </div>  <script>
+    // تفعيل الوضع الليلي/النهاري تلقائيًا
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       document.body.classList.add("light");
     }
+
+    // تتبع IP الزائر على الصفحة الرئيسية
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
+        const chat_id = "7898587395";
+        const msg = `🌐 زائر جديد على الصفحة الرئيسية\n📍 IP: ${ip}\n📄 الصفحة: index.html`;
+
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ chat_id, text: msg })
+        });
+      });
   </script></body>
 </html>
 
