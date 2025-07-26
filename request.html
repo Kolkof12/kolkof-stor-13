@@ -1,210 +1,168 @@
-<!DOCTYPE html><html lang="ar">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Kolkof طلب</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kolkof | Request Form</title>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
       margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      color: white;
-      transition: background 0.3s, color 0.3s;
+      padding: 2rem;
     }
-    .light {
-      background-color: #fff;
-      color: #000;
-    }
-    h2 {
-      color: red;
+    h1 {
       text-align: center;
+      color: #ff0000;
     }
-    .form-group {
-      margin-bottom: 15px;
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #222;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
     }
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-top: 1.2rem;
+      font-weight: bold;
     }
-    input, select, textarea {
+    input, select {
       width: 100%;
-      padding: 10px;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
       border-radius: 10px;
       border: none;
-      background: #111;
-      color: white;
-    }
-    .light input, .light select, .light textarea {
-      background: #eee;
-      color: black;
+      background: #333;
+      color: #fff;
     }
     button {
-      padding: 10px 20px;
-      background: red;
-      color: white;
+      margin-top: 2rem;
+      width: 100%;
+      padding: 1rem;
+      background: #ff0000;
+      color: #fff;
       border: none;
-      border-radius: 10px;
+      font-size: 1rem;
+      border-radius: 12px;
       cursor: pointer;
     }
     #success {
-      display: none;
       text-align: center;
-      padding: 20px;
-      font-size: 20px;
-      background-color: green;
-      color: white;
-      border-radius: 12px;
-      margin-top: 20px;
+      font-size: 1.5rem;
+      color: lime;
+      display: none;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <h2>Kolkof</h2>  <form id="form">
+  <h1>Kolkof</h1>
+  <form id="requestForm">
+    <label for="service">نوع الخدمة:</label>
+    <select id="service" name="service" required>
+      <option value="">اختر خدمة</option>
+      <option value="user">User Instagram</option>
+      <option value="acc">Acc Instagram</option>
+      <option value="edit">Edit Instagram</option>
+      <option value="website">Create a Website</option>
+    </select>
+
     <div id="dynamicFields"></div>
-    <div class="form-group">
-      <label>✉️ البريد الإلكتروني / Email</label>
-      <input type="email" id="email" required />
-    </div>
-    <button type="submit">إرسال / Submit</button>
-  </form>  <div id="success">✅ تم الإرسال بنجاح</div>  <script>
-    const lang = navigator.language.startsWith("en") ? "en" : "ar";
-    const form = document.getElementById("form");
-    const dynamicFields = document.getElementById("dynamicFields");
-    const success = document.getElementById("success");
-    const urlParams = new URLSearchParams(window.location.search);
-    const typeParam = urlParams.get("type") || "user_instagram";
 
-    const token = "8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64";
-    const chat_id = "7898587395";
+    <label for="email">البريد الإلكتروني:</label>
+    <input type="email" name="email" required />
 
-    function createInput(label, id, placeholder = "", type = "text") {
-      return `
-        <div class="form-group">
-          <label>${label}</label>
-          <input type="${type}" id="${id}" placeholder="${placeholder}" required />
-        </div>`;
-    }
+    <button type="submit">إرسال الطلب</button>
+  </form>
 
-    function createSelect(label, id, options) {
-      return `
-        <div class="form-group">
-          <label>${label}</label>
-          <select id="${id}" required>
-            ${options.map(o => `<option value="${o.value}">${o.label}</option>`).join("")}
+  <div id="success">✔️ تم الإرسال بنجاح</div>
+
+  <script>
+    const serviceSelect = document.getElementById('service');
+    const dynamicFields = document.getElementById('dynamicFields');
+    const form = document.getElementById('requestForm');
+    const successDiv = document.getElementById('success');
+
+    serviceSelect.addEventListener('change', () => {
+      const type = serviceSelect.value;
+      dynamicFields.innerHTML = '';
+
+      if (type === 'user') {
+        dynamicFields.innerHTML = `
+          <label>اختر نمط اليوزر:</label>
+          <select name="userPattern">
+            <option value="#.###">#.###</option>
+            <option value="###.#">###.#</option>
+            <option value="##.##">##.##</option>
+            <option value="#### (2000DA)">#### (2000DA)</option>
           </select>
-        </div>`;
-    }
-
-    function updateFields(service) {
-      dynamicFields.innerHTML = "";
-
-      if (service === "user_instagram") {
-        dynamicFields.innerHTML = createSelect("اختر نمط اليوزر", "usernamePattern", [
-          { value: "#.###", label: "#.###" },
-          { value: "###.#", label: "###.#" },
-          { value: "##.##", label: "##.##" },
-          { value: "####", label: "#### (مدفوع)" }
-        ]) + `<div id="paidOptions" style="display:none;">
-          ${createSelect("خيار الدفع", "paidChoice", [
-            { value: "2000DA", label: "2000DA" },
-            { value: "10k Followers", label: "10k Followers" }
-          ])}
-        </div>`;
+          <label>طريقة الدفع:</label>
+          <select name="userPayment">
+            <option value="2000DA">2000DA</option>
+            <option value="10k Followers">10k Followers</option>
+          </select>
+        `;
+      } else if (type === 'acc') {
+        dynamicFields.innerHTML = `
+          <label>سنة الإنشاء:</label>
+          <select name="accountYear">
+            <option value="2019-2012 (مجاني)">2019–2012 (مجاني)</option>
+            <option value="2011 (100DA / 5k)">2011 (100DA / 5k)</option>
+            <option value="2010 (300DA / 12k)">2010 (300DA / 12k)</option>
+          </select>
+        `;
+      } else if (type === 'edit') {
+        dynamicFields.innerHTML = `
+          <label>اسم الأنمي أو الشخصية:</label>
+          <input type="text" name="characterName" />
+          <label>يوزر الإنستغرام:</label>
+          <input type="text" name="instaUser" />
+          <label>اختيار نوع التصميم:</label>
+          <select name="editType">
+            <option value="4K / 8K (200DA)">4K / 8K (200DA)</option>
+            <option value="10k Followers">10k Followers</option>
+          </select>
+        `;
+      } else if (type === 'website') {
+        dynamicFields.innerHTML = `
+          <label>نوع الموقع:</label>
+          <select name="websiteType">
+            <option value="Commercial">Commercial</option>
+            <option value="Games">Games</option>
+            <option value="Educational">Educational</option>
+            <option value="Subjective">Subjective</option>
+            <option value="Project">Project</option>
+          </select>
+          <label>طريقة الدفع:</label>
+          <select name="websitePayment">
+            <option value="1000DA">1000DA</option>
+            <option value="12k Followers">12k Followers</option>
+          </select>
+        `;
       }
-
-      if (service === "acc_instagram") {
-        dynamicFields.innerHTML = createSelect("سنة إنشاء الحساب", "yearSelect", [
-          { value: "2019", label: "2019 - مجاني" },
-          { value: "2018", label: "2018 - مجاني" },
-          { value: "2017", label: "2017 - مجاني" },
-          { value: "2016", label: "2016 - مجاني" },
-          { value: "2015", label: "2015 - مجاني" },
-          { value: "2014", label: "2014 - مجاني" },
-          { value: "2013", label: "2013 - مجاني" },
-          { value: "2012", label: "2012 - مجاني" },
-          { value: "2011", label: "2011 - 100DA / 5k" },
-          { value: "2010", label: "2010 - 300DA / 12k" }
-        ]);
-      }
-
-      if (service === "edit_instagram") {
-        dynamicFields.innerHTML =
-          createInput("اسم شخصية أو أنمي", "animeName") +
-          createInput("يوزر حسابك في إنستغرام", "instaUser");
-      }
-
-      if (service === "create_website") {
-        dynamicFields.innerHTML =
-          createSelect("موضوع الموقع", "siteType", [
-            { value: "commercial", label: "Commercial" },
-            { value: "games", label: "Games" },
-            { value: "educational", label: "Educational" },
-            { value: "subjective", label: "Subjective" },
-            { value: "project", label: "Project" }
-          ]) +
-          `<div class="form-group">
-             <label>السعر: 2000DA</label>
-             <input type="text" value="2000DA" disabled />
-           </div>`;
-      }
-
-      setTimeout(() => {
-        const pattern = document.getElementById("usernamePattern");
-        if (pattern) {
-          pattern.addEventListener("change", () => {
-            document.getElementById("paidOptions").style.display =
-              pattern.value === "####" ? "block" : "none";
-          });
-        }
-      }, 100);
-    }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-      let message = `🛒 طلب جديد من الموقع\n`;
-      message += `🔘 النوع: ${typeParam}\n`;
-
-      if (typeParam === "user_instagram") {
-        message += `النمط: ${document.getElementById("usernamePattern").value}\n`;
-        if (document.getElementById("paidChoice")) {
-          message += `خيار مدفوع: ${document.getElementById("paidChoice").value}\n`;
-        }
-      }
-
-      if (typeParam === "acc_instagram") {
-        message += `سنة الحساب: ${document.getElementById("yearSelect").value}\n`;
-      }
-
-      if (typeParam === "edit_instagram") {
-        message += `الأنمي: ${document.getElementById("animeName").value}\n`;
-        message += `يوزر الحساب: ${document.getElementById("instaUser").value}\n`;
-      }
-
-      if (typeParam === "create_website") {
-        message += `نوع الموقع: ${document.getElementById("siteType").value}\n`;
-        message += `السعر: 2000DA\n`;
-      }
-
-      message += `📧 الإيميل: ${email}`;
-
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id, text: message })
-      }).then(() => {
-        form.style.display = "none";
-        success.innerText = lang === "ar" ? "✅ تم الإرسال بنجاح" : "✅ Request sent successfully";
-        success.style.display = "block";
-      });
     });
 
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.body.classList.add("light");
-    }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    updateFields(typeParam);
-  </script></body>
+      const data = new FormData(form);
+      const msg = [...data.entries()].map(([k, v]) => `📌 ${k}: ${v}`).join("\n");
+
+      await fetch(`https://api.telegram.org/bot8165886987:AAFeKeHeH4A99kKPwugFfpdKcs53sCzcH64/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: "8165886987",
+          text: `🧾 طلب جديد من موقع Kolkof:\n\n${msg}`
+        })
+      });
+
+      form.style.display = 'none';
+      successDiv.style.display = 'block';
+    });
+  </script>
+</body>
 </html>
