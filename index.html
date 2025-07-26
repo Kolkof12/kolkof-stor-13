@@ -1,172 +1,140 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kolkof - Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolkof | Premium Store</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      transition: background 0.3s, color 0.3s;
-    }
-
     :root {
       --red: #ff0000;
-      --bg-dark: #000;
-      --bg-light: #fff;
-      --text-dark: #fff;
-      --text-light: #000;
-    }
+      --black: #000;
+      --white: #fff;
+      --light-bg: #f8f8f8;
+      --dark-bg: #111;
+      --card-bg: rgba(255,255,255,0.05);
+    }body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
+body.light {
+  background: var(--white);
+  color: var(--black);
+}
 
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
+body.dark {
+  background: var(--black);
+  color: var(--white);
+}
 
-    header {
-      text-align: center;
-      padding: 1rem;
-      font-size: 2rem;
-      color: var(--red);
-    }
+header {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--red);
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-    }
+.hero {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 1rem;
-      text-align: center;
-      transition: transform 0.3s;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
+.card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(10px);
+}
 
-    .card img {
-      width: 70px;
-      height: 70px;
-      object-fit: contain;
-      margin-bottom: 0.5rem;
-    }
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+}
 
-    .card-title {
-      font-weight: bold;
-      font-size: 1rem;
-    }
+.card img {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 2px solid var(--red);
+  background: #fff;
+}
 
-    .mode-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: var(--red);
-      border: none;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+.card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
 
-    .success-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      display: none;
-    }
+.mode-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
 
-    .checkmark {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: #00c851;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: scaleIn 0.6s ease;
-    }
+@media (max-width: 600px) {
+  header {
+    font-size: 2rem;
+  }
+}
 
-    .checkmark::before {
-      content: '✔';
-      font-size: 50px;
-      color: white;
-    }
-
-    @keyframes scaleIn {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
-    }
   </style>
 </head>
 <body>
   <header>Kolkof</header>
-  <button class="mode-toggle" onclick="toggleMode()">🌓</button>
-
-  <div class="grid">
+  <button class="mode-toggle" onclick="toggleMode()">🌓</button>  <div class="hero">
+    Premium Services – Delivered With Style
+  </div>  <div class="grid">
     <div class="card" onclick="location.href='request.html?type=user'">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram User">
-      <div class="card-title">User Instagram</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="User Instagram">
+      <h3>User Instagram</h3>
     </div>
     <div class="card" onclick="location.href='request.html?type=acc'">
       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384015.png" alt="Acc Instagram">
-      <div class="card-title">Acc Instagram</div>
+      <h3>Acc Instagram</h3>
     </div>
     <div class="card" onclick="location.href='request.html?type=edit'">
-      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828911.png" alt="Edit Instagram">
-      <div class="card-title">Edit Instagram</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png" alt="Edit Instagram">
+      <h3>Edit Instagram</h3>
     </div>
     <div class="card" onclick="location.href='request.html?type=tools'">
-      <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="Python Tools">
-      <div class="card-title">Python Tools</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/1486/1486365.png" alt="Python Tools">
+      <h3>Python Tools</h3>
     </div>
     <div class="card" onclick="location.href='request.html?type=website'">
-      <img src="https://cdn-icons-png.flaticon.com/512/2721/2721673.png" alt="Website">
-      <div class="card-title">Create a Special Website</div>
+      <img src="https://cdn-icons-png.flaticon.com/512/2721/2721673.png" alt="Create Website">
+      <h3>Create a Special Website</h3>
     </div>
-  </div>
-
-  <div class="success-overlay" id="success">
-    <div class="checkmark"></div>
-  </div>
-
-  <script>
-    const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.body.classList.add(userPrefersDark ? 'dark' : 'light');
+  </div>  <script>
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.body.classList.add(prefersDark ? 'dark' : 'light');
 
     function toggleMode() {
       document.body.classList.toggle('dark');
       document.body.classList.toggle('light');
     }
-
-    function showSuccess() {
-      document.getElementById("success").style.display = "flex";
-    }
-
-    // مثال على طريقة الاستخدام:
-    // showSuccess(); ← نداء هذه الدالة بعد الدفع لعرض الدائرة ✅
-  </script>
-</body>
-        </html>
+  </script></body>
+</html>
