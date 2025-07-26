@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -68,19 +67,14 @@
       <option value="acc">Acc Instagram</option>
       <option value="edit">Edit Instagram</option>
       <option value="website">Create a Website</option>
-    </select>
+    </select><div id="dynamicFields"></div>
 
-    <div id="dynamicFields"></div>
+<label for="email">البريد الإلكتروني:</label>
+<input type="email" name="email" required />
 
-    <label for="email">البريد الإلكتروني:</label>
-    <input type="email" name="email" required />
+<button type="submit">إرسال الطلب</button>
 
-    <button type="submit">إرسال الطلب</button>
-  </form>
-
-  <div id="success">✔️ تم الإرسال بنجاح</div>
-
-  <script>
+  </form>  <div id="success">✔️ تم الإرسال بنجاح</div>  <script>
     const serviceSelect = document.getElementById('service');
     const dynamicFields = document.getElementById('dynamicFields');
     const form = document.getElementById('requestForm');
@@ -97,7 +91,7 @@
             <option value="#.###">#.###</option>
             <option value="###.#">###.#</option>
             <option value="##.##">##.##</option>
-            <option value="#### (2000DA)">#### (2000DA)</option>
+            <option value="####">####</option>
           </select>
           <label>طريقة الدفع:</label>
           <select name="userPayment">
@@ -110,8 +104,15 @@
           <label>سنة الإنشاء:</label>
           <select name="accountYear">
             <option value="2019-2012 (مجاني)">2019–2012 (مجاني)</option>
-            <option value="2011 (100DA / 5k)">2011 (100DA / 5k)</option>
-            <option value="2010 (300DA / 12k)">2010 (300DA / 12k)</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
+          </select>
+          <label>طريقة الدفع:</label>
+          <select name="accPayment">
+            <option value="100DA">100DA</option>
+            <option value="5k Followers">5k Followers</option>
+            <option value="300DA">300DA</option>
+            <option value="12k Followers">12k Followers</option>
           </select>
         `;
       } else if (type === 'edit') {
@@ -120,9 +121,9 @@
           <input type="text" name="characterName" />
           <label>يوزر الإنستغرام:</label>
           <input type="text" name="instaUser" />
-          <label>اختيار نوع التصميم:</label>
-          <select name="editType">
-            <option value="4K / 8K (200DA)">4K / 8K (200DA)</option>
+          <label>نوع التصميم:</label>
+          <select name="editPayment">
+            <option value="200DA">200DA</option>
             <option value="10k Followers">10k Followers</option>
           </select>
         `;
@@ -162,7 +163,9 @@
 
       form.style.display = 'none';
       successDiv.style.display = 'block';
+      setTimeout(() => {
+        window.location.href = "success.html";
+      }, 2000);
     });
-  </script>
-</body>
+  </script></body>
 </html>
